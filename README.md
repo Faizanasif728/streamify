@@ -27,8 +27,6 @@
 ### 🔧 Backend 
 - 🗄️ MongoDB Setup
 - 🔐 Authentication with JWT
-- 🔄 Forgot & Reset Password
-- 📧 Sending account related emails
 - 🔒 Protecting Our Routes
 - 🎬 Fetch Movies and Tv Shows from TMDB API
 - 🙌 Fetch Similar Movies and Tv Shows
@@ -37,11 +35,8 @@
 ### 🌐 Frontend
 - 📋 Signup Page UI
 - 🔓 Login Page UI
-- ✅ Email Verification Page UI
 - 📤 Implementing Signup
 - 🔑 Implementing Login
-- 📧 Implementing Email Verification
-- 🔄 Implementing Forgot Password
 - 📱 Responsive UI
 - 🎥 Watch Trailers
 - 🔥 Fetch Search History
@@ -76,8 +71,6 @@
 │     ├───models
 │     ├───routes
 │     ├───services
-│     │    ├───mailtrap-service.js
-│     │    │   └───[[...emails]]
 │     │    └───tmdb-service.js
 │     │       └───[[...data]]
 │     ├───(app.js)
@@ -193,10 +186,6 @@ MONGO_URI=your_mongodb_uri
 # TMDB API integration
 TMDB_API_KEY=your_tmdb_api_key
 
-# Mailtrap integration
-MAILTRAP_TOKEN=your_mailtrap_token
-MAILTRAP_ENDPOINT=https://sandbox.api.mailtrap.io/api/send/{your_mailbox_id}
-    
 ```
 
 2.  Project Folders & Files Structure
