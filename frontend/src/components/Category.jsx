@@ -13,10 +13,14 @@ const Category = ({ category }) => {
 
   const categoryTitle = `${formattedCategoryName} ${formattedContentType}`;
 
+  const BASE_URL = import.meta.env.DEV
+    ? import.meta.env.VITE_API_URL_LOCAL
+    : import.meta.env.VITE_API_URL_PRODUCTION;
+
   useEffect(() => {
     // Fetch content based on category and set it in the content store
     const getContent = async () => {
-      const res = await axios.get(`/api/v1/${contentType}/${category}`);
+      const res = await axios.get(`${BASE_URL}/${contentType}/${category}`);
       setContent(res.data.content);
     };
     getContent();

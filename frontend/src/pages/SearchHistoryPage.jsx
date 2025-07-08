@@ -14,7 +14,10 @@ const SearchHistoryPage = () => {
     // Fetch search history data from the backend API
     const getSearchHistory = async () => {
       try {
-        const res = await axios.get('api/v1/search/history');
+        const BASE_URL = import.meta.env.DEV
+          ? import.meta.env.VITE_API_URL_LOCAL
+          : import.meta.env.VITE_API_URL_PRODUCTION;
+        const res = await axios.get(`${BASE_URL}/search/history`);
         if (res.data) setSearchHistory(res.data.content.searchHistory);
       } catch (error) {
         setSearchHistory([]);
@@ -25,7 +28,10 @@ const SearchHistoryPage = () => {
 
   const handleDelete = async (entry) => {
     try {
-      await axios.delete(`/api/v1/search/history/${entry.id}`);
+      const BASE_URL = import.meta.env.DEV
+        ? import.meta.env.VITE_API_URL_LOCAL
+        : import.meta.env.VITE_API_URL_PRODUCTION;
+      await axios.delete(`${BASE_URL}/search/history/${entry.id}`);
       setSearchHistory(searchHistory.filter((item) => item.id !== entry.id));
     } catch (error) {
       toast.error('Failed to delete search item');

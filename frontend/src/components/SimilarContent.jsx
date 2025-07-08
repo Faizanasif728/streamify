@@ -9,11 +9,15 @@ const SimilarContent = ({ id, ...props }) => {
   const [similarContent, setSimilarContent] = useState([]);
   const { contentType } = useContentStore();
 
+  const BASE_URL = import.meta.env.DEV
+    ? import.meta.env.VITE_API_URL_LOCAL
+    : import.meta.env.VITE_API_URL_PRODUCTION;
+
   // fetch the similar content from the backend API
   useEffect(() => {
     const getSimilarContent = async () => {
       try {
-        const res = await axios.get(`/api/v1/${contentType}/${id}/similar`);
+        const res = await axios.get(`${BASE_URL}/${contentType}/${id}/similar`);
         setSimilarContent(res.data.content);
       } catch (error) {
         if (error.message.includes('404')) setSimilarContent([]);

@@ -20,12 +20,16 @@ const WatchPage = () => {
 
   const { contentType } = useContentStore();
 
+  const BASE_URL = import.meta.env.DEV
+    ? import.meta.env.VITE_API_URL_LOCAL
+    : import.meta.env.VITE_API_URL_PRODUCTION;
+
   // get the content trailers
   useEffect(() => {
     const getTrailers = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`/api/v1/${contentType}/${id}/trailers`);
+        const res = await axios.get(`${BASE_URL}/${contentType}/${id}/trailers`);
         setTrailers(res.data.content);
       } catch (error) {
         if (error.message.includes('404')) setTrailers([]);
@@ -41,7 +45,7 @@ const WatchPage = () => {
     const getContentDetails = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`/api/v1/${contentType}/${id}/details`);
+        const res = await axios.get(`${BASE_URL}/${contentType}/${id}/details`);
         setContent(res.data.content);
       } catch (error) {
         if (error.message.includes('404')) setContent(null);

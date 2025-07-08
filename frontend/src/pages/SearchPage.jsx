@@ -9,6 +9,10 @@ import Navbar from '../components/Navbar';
 import CustomToast from '../components/CustomToast';
 import { useContentStore } from '../store/content.store.js';
 
+const BASE_URL = import.meta.env.DEV
+  ? import.meta.env.VITE_API_URL_LOCAL
+  : import.meta.env.VITE_API_URL_PRODUCTION;
+
 const SearchPage = () => {
   const [activeTab, setActiveTab] = useState('movie');
   const [searchTerm, setSearchTerm] = useState('');
@@ -35,7 +39,7 @@ const SearchPage = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.get(`/api/v1/search/${activeTab}/${searchTerm}`);
+      const res = await axios.get(`${BASE_URL}/search/${activeTab}/${searchTerm}`);
       setResults(res.data.content);
     } catch (error) {
       if (error.response.status === 404) {

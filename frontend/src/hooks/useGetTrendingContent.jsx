@@ -10,7 +10,10 @@ const useGetTrendingContent = () => {
   useEffect(() => {
     // Fetch trending content based on the current content type
     const getTrendingContent = async () => {
-      const res = await axios.get(`/api/v1/${contentType}/trending`);
+      const BASE_URL = import.meta.env.DEV
+        ? import.meta.env.VITE_API_URL_LOCAL
+        : import.meta.env.VITE_API_URL_PRODUCTION;
+      const res = await axios.get(`${BASE_URL}/${contentType}/trending`);
       setTrendingContent(res.data.content);
     };
 

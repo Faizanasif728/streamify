@@ -5,8 +5,9 @@ import toast from 'react-hot-toast';
 // Set axios to send cookies with requests.
 axios.defaults.withCredentials = true;
 
-// Base URL for API requests.
-// const BASE_URL = import.meta.env.MODE === 'development' ? 'http://localhost:8000/api/v1/account' : '/api/v1/account';
+const BASE_URL = import.meta.env.DEV
+  ? import.meta.env.VITE_API_URL_LOCAL
+  : import.meta.env.VITE_API_URL_PRODUCTION;
 
 export const useAuthStore = create((set) => ({
   user: null,
@@ -23,7 +24,7 @@ export const useAuthStore = create((set) => ({
   signup: async (credentials) => {
     set({ user: null, isSigningUp: true, error: null });
     try {
-      const res = await axios.post('/api/v1/account/signup', credentials);
+      const res = await axios.post(`${BASE_URL}/account/signup`, credentials);
       set({ user: res.data.user, isSigningUp: false });
     } catch (error) {
       set({ isSigningUp: false, error: error.response.data.message });
@@ -37,7 +38,7 @@ export const useAuthStore = create((set) => ({
   login: async (credentials) => {
     set({ user: null, isLoggingIn: true, error: null });
     try {
-      const res = await axios.post('/api/v1/account/login', credentials);
+      const res = await axios.post(`${BASE_URL}/account/login`, credentials);
       set({ user: res.data.user, isLoggingIn: false });
     } catch (error) {
       set({ isLoggingIn: false, error: error.response.data.message });
@@ -54,7 +55,7 @@ export const useAuthStore = create((set) => ({
   logout: async () => {
     set({ isLoggingOut: true });
     try {
-      await axios.post('/api/v1/account/logout');
+      await axios.post(`${BASE_URL}/account/logout`);
       set({ user: null, isLoggingOut: false });
       toast.success('Logged out successfully');
     } catch (error) {
@@ -72,7 +73,7 @@ export const useAuthStore = create((set) => ({
   checkAuth: async () => {
     set({ user: null, isCheckingAuth: true });
     try {
-      const res = await axios.get('/api/v1/account/auth');
+      const res = await axios.get(`${BASE_URL}/account/auth`);
       set({ user: res.data.user, isCheckingAuth: false });
     } catch (error) {
       set({ isCheckingAuth: false });
@@ -88,7 +89,7 @@ export const useAuthStore = create((set) => ({
   resetPassword: async (resetToken, newPassword) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`/api/v1/account/reset/password/${resetToken}`, { password: newPassword });
+      const response = await axios.post(`${BASE_URL}/account/reset/password/${resetToken}`, { password: newPassword });
       set({ isLoading: false, error: null });
     } catch (error) {
       set({ error: error.response.data.message || 'Error resetting password', isLoading: false });

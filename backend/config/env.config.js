@@ -32,9 +32,10 @@ export const ENV_VARS = {
   MONGO_URI: process.env.MONGO_URI,
   PORT: process.env.SERVER_PORT || 8000,
   NODE_ENV: process.env.NODE_ENV || 'development',
-  CLIENT_PORT: process.env.CLIENT_PORT || 3000,
-  CLIENT_HOST: process.env.CLIENT_HOST || 'localhost',
-  CLIENT_URL: process.env.CLIENT_URL || 'http://localhost:5173',
+  CLIENT_URL:
+    process.env.NODE_ENV === 'production'
+      ? process.env.PRODUCTION_FRONTEND_URL
+      : process.env.LOCAL_FRONTEND_URL,
 
   // JWT configuration
   JWT_SECRET: process.env.JWT_SECRET,
