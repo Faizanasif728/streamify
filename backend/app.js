@@ -53,6 +53,11 @@ export const expressServer = () => {
    */
   app.use(cookieParser());
 
+  // Root route for health check
+  app.get('/', (req, res) => {
+    res.send('Streamify API is running...');
+  });
+
   // Defines routes for the '/api/v1/account' , '/api/v1/movie' , '/api/v1/tv' , /api/v1/search' path.
   app.use('/api/v1/account', authRoutes);
   app.use('/api/v1/movie', protectedRoute, movieRoutes);
