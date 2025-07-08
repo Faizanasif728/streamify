@@ -32,9 +32,26 @@ export const expressServer = () => {
    * getClientUrl is a function that retrieves the client's base URL. (e.g. http://localhost:5173)
    */
   const baseURL = getClientUrl();
+  // CORS setup to allow both local and production frontend origins
+  const allowedOrigins = [
+    process.env.LOCAL_FRONTEND_URL,
+    process.env.PRODUCTION_FRONTEND_URL
+  ];
   app.use(
     cors({
-      origin: baseURL,
+      origin: function(origin, callback) {
+        // allow requests with no origin (like mobile apps, curl, etc.)
+        if (!origin) return callback(null, true);
+        // Allow all localhost origins for development
+        if (origin.startsWith('http://localhost:')) {
+          return callback(null, true);
+        }
+        if (allowedOrigins.includes(origin)) {
+          return callback(null, true);
+        } else {
+          return callback(new Error('Not allowed by CORS'));
+        }
+      },
       methods: ['GET', 'POST', 'HEAD', 'PUT', 'PATCH', 'UPDATE', 'DELETE'],
       credentials: true,
       allowedHeaders: ['Content-Type', 'Authorization'],
@@ -57,6 +74,9 @@ export const expressServer = () => {
   app.get('/', (req, res) => {
     res.send('Streamify API is running...');
   });
+
+  // Handle favicon requests
+  app.get('/favicon.ico', (req, res) => res.status(204).end());
 
   // Defines routes for the '/api/v1/account' , '/api/v1/movie' , '/api/v1/tv' , /api/v1/search' path.
   app.use('/api/v1/account', authRoutes);
